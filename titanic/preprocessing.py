@@ -1,12 +1,12 @@
 from sklearn import preprocessing
-
+from scipy import stats
 
 def input_missing_values(df):
     for col in df.columns:
-        if (df[col].dtype is float) or (df[col].dtype is int):
-            df[col] = df[col].fillna(df[col].median())
-        if (df[col].dtype == object):
-            df[col] = df[col].fillna(df[col].mode()[0])
+        if (df[col].dtype == float) or (df[col].dtype == int):
+            df[col] = df[col].fillna(df[col].median(skipna=True), inplace=True)
+        if (col == 'Embarked'):
+            df["Embarked"].fillna(df['Embarked'].value_counts().idxmax(), inplace=True)
 
     return df
 
